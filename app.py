@@ -1,1 +1,181 @@
-{"nbformat":4,"nbformat_minor":0,"metadata":{"colab":{"provenance":[],"gpuType":"T4","authorship_tag":"ABX9TyOPUy42z4/y0T0oqEZNyyGQ"},"kernelspec":{"name":"python3","display_name":"Python 3"},"language_info":{"name":"python"},"accelerator":"GPU"},"cells":[{"cell_type":"code","source":["from google.colab import drive\n","drive.mount('/content/drive')\n"],"metadata":{"id":"VkMIzTRsAy9U","colab":{"base_uri":"https://localhost:8080/"},"executionInfo":{"status":"ok","timestamp":1767629370951,"user_tz":-60,"elapsed":21957,"user":{"displayName":"Judy Kimani","userId":"18127965472496464995"}},"outputId":"1351375f-e8e4-4ebd-a63e-07ac5435e345"},"execution_count":1,"outputs":[{"output_type":"stream","name":"stdout","text":["Mounted at /content/drive\n"]}]},{"cell_type":"code","source":["!pip install streamlit"],"metadata":{"colab":{"base_uri":"https://localhost:8080/"},"id":"AWyW_s_W7RPv","executionInfo":{"status":"ok","timestamp":1767629475126,"user_tz":-60,"elapsed":5675,"user":{"displayName":"Judy Kimani","userId":"18127965472496464995"}},"outputId":"237c3457-0e79-4764-ec35-02d2be99a381"},"execution_count":3,"outputs":[{"output_type":"stream","name":"stdout","text":["Collecting streamlit\n","  Downloading streamlit-1.52.2-py3-none-any.whl.metadata (9.8 kB)\n","Requirement already satisfied: altair!=5.4.0,!=5.4.1,<7,>=4.0 in /usr/local/lib/python3.12/dist-packages (from streamlit) (5.5.0)\n","Requirement already satisfied: blinker<2,>=1.5.0 in /usr/local/lib/python3.12/dist-packages (from streamlit) (1.9.0)\n","Requirement already satisfied: cachetools<7,>=4.0 in /usr/local/lib/python3.12/dist-packages (from streamlit) (6.2.4)\n","Requirement already satisfied: click<9,>=7.0 in /usr/local/lib/python3.12/dist-packages (from streamlit) (8.3.1)\n","Requirement already satisfied: numpy<3,>=1.23 in /usr/local/lib/python3.12/dist-packages (from streamlit) (2.0.2)\n","Requirement already satisfied: packaging>=20 in /usr/local/lib/python3.12/dist-packages (from streamlit) (25.0)\n","Requirement already satisfied: pandas<3,>=1.4.0 in /usr/local/lib/python3.12/dist-packages (from streamlit) (2.2.2)\n","Requirement already satisfied: pillow<13,>=7.1.0 in /usr/local/lib/python3.12/dist-packages (from streamlit) (11.3.0)\n","Requirement already satisfied: protobuf<7,>=3.20 in /usr/local/lib/python3.12/dist-packages (from streamlit) (5.29.5)\n","Requirement already satisfied: pyarrow>=7.0 in /usr/local/lib/python3.12/dist-packages (from streamlit) (18.1.0)\n","Requirement already satisfied: requests<3,>=2.27 in /usr/local/lib/python3.12/dist-packages (from streamlit) (2.32.4)\n","Requirement already satisfied: tenacity<10,>=8.1.0 in /usr/local/lib/python3.12/dist-packages (from streamlit) (9.1.2)\n","Requirement already satisfied: toml<2,>=0.10.1 in /usr/local/lib/python3.12/dist-packages (from streamlit) (0.10.2)\n","Requirement already satisfied: typing-extensions<5,>=4.4.0 in /usr/local/lib/python3.12/dist-packages (from streamlit) (4.15.0)\n","Requirement already satisfied: watchdog<7,>=2.1.5 in /usr/local/lib/python3.12/dist-packages (from streamlit) (6.0.0)\n","Requirement already satisfied: gitpython!=3.1.19,<4,>=3.0.7 in /usr/local/lib/python3.12/dist-packages (from streamlit) (3.1.45)\n","Collecting pydeck<1,>=0.8.0b4 (from streamlit)\n","  Downloading pydeck-0.9.1-py2.py3-none-any.whl.metadata (4.1 kB)\n","Requirement already satisfied: tornado!=6.5.0,<7,>=6.0.3 in /usr/local/lib/python3.12/dist-packages (from streamlit) (6.5.1)\n","Requirement already satisfied: jinja2 in /usr/local/lib/python3.12/dist-packages (from altair!=5.4.0,!=5.4.1,<7,>=4.0->streamlit) (3.1.6)\n","Requirement already satisfied: jsonschema>=3.0 in /usr/local/lib/python3.12/dist-packages (from altair!=5.4.0,!=5.4.1,<7,>=4.0->streamlit) (4.25.1)\n","Requirement already satisfied: narwhals>=1.14.2 in /usr/local/lib/python3.12/dist-packages (from altair!=5.4.0,!=5.4.1,<7,>=4.0->streamlit) (2.13.0)\n","Requirement already satisfied: gitdb<5,>=4.0.1 in /usr/local/lib/python3.12/dist-packages (from gitpython!=3.1.19,<4,>=3.0.7->streamlit) (4.0.12)\n","Requirement already satisfied: python-dateutil>=2.8.2 in /usr/local/lib/python3.12/dist-packages (from pandas<3,>=1.4.0->streamlit) (2.9.0.post0)\n","Requirement already satisfied: pytz>=2020.1 in /usr/local/lib/python3.12/dist-packages (from pandas<3,>=1.4.0->streamlit) (2025.2)\n","Requirement already satisfied: tzdata>=2022.7 in /usr/local/lib/python3.12/dist-packages (from pandas<3,>=1.4.0->streamlit) (2025.3)\n","Requirement already satisfied: charset_normalizer<4,>=2 in /usr/local/lib/python3.12/dist-packages (from requests<3,>=2.27->streamlit) (3.4.4)\n","Requirement already satisfied: idna<4,>=2.5 in /usr/local/lib/python3.12/dist-packages (from requests<3,>=2.27->streamlit) (3.11)\n","Requirement already satisfied: urllib3<3,>=1.21.1 in /usr/local/lib/python3.12/dist-packages (from requests<3,>=2.27->streamlit) (2.5.0)\n","Requirement already satisfied: certifi>=2017.4.17 in /usr/local/lib/python3.12/dist-packages (from requests<3,>=2.27->streamlit) (2025.11.12)\n","Requirement already satisfied: smmap<6,>=3.0.1 in /usr/local/lib/python3.12/dist-packages (from gitdb<5,>=4.0.1->gitpython!=3.1.19,<4,>=3.0.7->streamlit) (5.0.2)\n","Requirement already satisfied: MarkupSafe>=2.0 in /usr/local/lib/python3.12/dist-packages (from jinja2->altair!=5.4.0,!=5.4.1,<7,>=4.0->streamlit) (3.0.3)\n","Requirement already satisfied: attrs>=22.2.0 in /usr/local/lib/python3.12/dist-packages (from jsonschema>=3.0->altair!=5.4.0,!=5.4.1,<7,>=4.0->streamlit) (25.4.0)\n","Requirement already satisfied: jsonschema-specifications>=2023.03.6 in /usr/local/lib/python3.12/dist-packages (from jsonschema>=3.0->altair!=5.4.0,!=5.4.1,<7,>=4.0->streamlit) (2025.9.1)\n","Requirement already satisfied: referencing>=0.28.4 in /usr/local/lib/python3.12/dist-packages (from jsonschema>=3.0->altair!=5.4.0,!=5.4.1,<7,>=4.0->streamlit) (0.37.0)\n","Requirement already satisfied: rpds-py>=0.7.1 in /usr/local/lib/python3.12/dist-packages (from jsonschema>=3.0->altair!=5.4.0,!=5.4.1,<7,>=4.0->streamlit) (0.30.0)\n","Requirement already satisfied: six>=1.5 in /usr/local/lib/python3.12/dist-packages (from python-dateutil>=2.8.2->pandas<3,>=1.4.0->streamlit) (1.17.0)\n","Downloading streamlit-1.52.2-py3-none-any.whl (9.0 MB)\n","\u001b[2K   \u001b[90m━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\u001b[0m \u001b[32m9.0/9.0 MB\u001b[0m \u001b[31m100.0 MB/s\u001b[0m eta \u001b[36m0:00:00\u001b[0m\n","\u001b[?25hDownloading pydeck-0.9.1-py2.py3-none-any.whl (6.9 MB)\n","\u001b[2K   \u001b[90m━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\u001b[0m \u001b[32m6.9/6.9 MB\u001b[0m \u001b[31m131.7 MB/s\u001b[0m eta \u001b[36m0:00:00\u001b[0m\n","\u001b[?25hInstalling collected packages: pydeck, streamlit\n","Successfully installed pydeck-0.9.1 streamlit-1.52.2\n"]}]},{"cell_type":"code","source":["import os\n","import joblib\n","import numpy as np\n","import pandas as pd\n","import streamlit as st\n","\n","# ============================================================\n","# PM10 Forecast App (Gradient Boosting) — Deployable\n","# Modes:\n","#   1) Latest forecast (forward-looking)\n","#   2) Historical demo (pick timestamp; compare predicted vs actual)\n","# ============================================================\n","\n","# -----------------------------\n","# Paths (portable for hosting)\n","# -----------------------------\n","DATA_DIR = \"data\"\n","MODEL_DIR = \"models\"\n","\n","DEFAULT_DATA_FILE = \"pm10_model_dataset_t1_t24_final.csv\"\n","DEFAULT_MODEL_1H = \"gb_pm10_t_plus_1h.pkl\"\n","DEFAULT_MODEL_24H = \"gb_pm10_t_plus_24h.pkl\"\n","\n","# -----------------------------\n","# Page setup\n","# -----------------------------\n","st.set_page_config(page_title=\"PM10 Forecast (GB)\", layout=\"wide\")\n","st.title(\"PM10 Forecasting Interface (Gradient Boosting)\")\n","st.caption(\"Forecast PM10 for t+1h and t+24h. Includes latest forecast and historical demo/backtest mode.\")\n","\n","# -----------------------------\n","# Load models\n","# -----------------------------\n","@st.cache_resource\n","def load_models(m1_path: str, m24_path: str):\n","    m1 = joblib.load(m1_path)\n","    m24 = joblib.load(m24_path)\n","    return m1, m24\n","\n","def require_file(path: str, label: str):\n","    if not os.path.exists(path):\n","        st.error(f\"Missing {label}: `{path}`\")\n","        st.stop()\n","\n","m1_path = os.path.join(MODEL_DIR, DEFAULT_MODEL_1H)\n","m24_path = os.path.join(MODEL_DIR, DEFAULT_MODEL_24H)\n","require_file(m1_path, \"t+1h model file\")\n","require_file(m24_path, \"t+24h model file\")\n","\n","gb_1h, gb_24h = load_models(m1_path, m24_path)\n","\n","# Use the exact trained feature list (names + order)\n","if not hasattr(gb_1h, \"feature_names_in_\"):\n","    st.error(\"Model does not expose `feature_names_in_`. Please retrain using pandas DataFrame inputs.\")\n","    st.stop()\n","\n","FEATURE_COLS = list(gb_1h.feature_names_in_)\n","\n","if hasattr(gb_24h, \"feature_names_in_\") and list(gb_24h.feature_names_in_) != FEATURE_COLS:\n","    st.error(\"Feature mismatch between the t+1h and t+24h models. Retrain consistently.\")\n","    st.stop()\n","\n","# -----------------------------\n","# Load data\n","# -----------------------------\n","@st.cache_data\n","def load_data(csv_path: str) -> pd.DataFrame:\n","    df = pd.read_csv(csv_path, parse_dates=[\"datetime\"])\n","    return df\n","\n","data_path = os.path.join(DATA_DIR, DEFAULT_DATA_FILE)\n","require_file(data_path, \"dataset CSV\")\n","\n","df = load_data(data_path)\n","\n","# Safety: data must contain all required feature columns\n","missing = [c for c in FEATURE_COLS if c not in df.columns]\n","if missing:\n","    st.error(\"Dataset is missing columns required by the model:\")\n","    st.write(missing)\n","    st.stop()\n","\n","# Ensure station/datetime exist for UI\n","if \"station\" not in df.columns or \"datetime\" not in df.columns:\n","    st.error(\"Dataset must include `station` and `datetime` columns for this app.\")\n","    st.stop()\n","\n","# Sorting is important for \"latest\"\n","df = df.sort_values([\"station\", \"datetime\"]).reset_index(drop=True)\n","\n","# -----------------------------\n","# Prediction function\n","# -----------------------------\n","def predict_row(x_row: pd.DataFrame):\n","    x = x_row[FEATURE_COLS]\n","    p1 = float(gb_1h.predict(x)[0])\n","    p24 = float(gb_24h.predict(x)[0])\n","    return p1, p24\n","\n","# ============================================================\n","# Sidebar controls\n","# ============================================================\n","st.sidebar.header(\"Controls\")\n","\n","stations = sorted(df[\"station\"].astype(str).unique().tolist())\n","station = st.sidebar.selectbox(\"Station\", stations, index=0)\n","\n","mode = st.sidebar.radio(\n","    \"Mode\",\n","    [\"Latest forecast\", \"Historical demo (with actual comparison)\"],\n","    index=0\n",")\n","\n","scenario = st.sidebar.checkbox(\"Scenario mode (adjust key weather inputs)\", value=False)\n","\n","# Filter station\n","df_s = df[df[\"station\"].astype(str) == str(station)].copy()\n","df_s = df_s.sort_values(\"datetime\")\n","\n","# Pick row\n","if mode == \"Latest forecast\":\n","    row = df_s.iloc[-1].copy()\n","else:\n","    # Choose a timestamp\n","    # Keep it responsive: show last N timestamps\n","    N = 2000 if len(df_s) > 2000 else len(df_s)\n","    df_recent = df_s.tail(N).copy()\n","\n","    ts_list = df_recent[\"datetime\"].dt.strftime(\"%Y-%m-%d %H:%M:%S\").tolist()\n","    picked = st.sidebar.selectbox(\"Pick a timestamp (recent window)\", ts_list, index=len(ts_list) - 1)\n","\n","    picked_dt = pd.to_datetime(picked)\n","    row = df_s[df_s[\"datetime\"] == picked_dt].iloc[0].copy()\n","\n","# One-row DataFrame for prediction\n","x_row = row[FEATURE_COLS].to_frame().T\n","\n","# ============================================================\n","# Main UI: context\n","# ============================================================\n","st.subheader(\"Selected context\")\n","c1, c2, c3 = st.columns(3)\n","c1.write(f\"**Station:** {station}\")\n","c2.write(f\"**Timestamp used:** {row['datetime']}\")\n","c3.write(f\"**Mode:** {mode}\")\n","\n","# ============================================================\n","# Scenario sliders (optional)\n","# ============================================================\n","if scenario:\n","    st.info(\"Scenario mode: adjust a few key weather inputs and observe prediction changes.\")\n","    colA, colB, colC = st.columns(3)\n","\n","    def slider_if_exists(colname, label, ui_col, minv, maxv):\n","        if colname in x_row.columns:\n","            cur = float(x_row[colname].iloc[0])\n","            x_row[colname] = ui_col.slider(label, min_value=minv, max_value=maxv, value=cur)\n","\n","    slider_if_exists(\"temp\", \"Temperature\", colA, -20.0, 45.0)\n","    slider_if_exists(\"humidity\", \"Humidity\", colA, 0.0, 100.0)\n","    slider_if_exists(\"windspeed\", \"Wind speed\", colB, 0.0, 25.0)\n","    slider_if_exists(\"windgust\", \"Wind gust\", colB, 0.0, 40.0)\n","    slider_if_exists(\"sealevelpressure\", \"Sea level pressure\", colC, 950.0, 1050.0)\n","    slider_if_exists(\"visibility\", \"Visibility\", colC, 0.0, 30.0)\n","\n","# ============================================================\n","# Predict + display\n","# ============================================================\n","p1, p24 = predict_row(x_row)\n","\n","st.subheader(\"Forecast outputs\")\n","m1, m2 = st.columns(2)\n","m1.metric(\"PM10 t+1h (µg/m³)\", f\"{p1:.2f}\")\n","m2.metric(\"PM10 t+24h (µg/m³)\", f\"{p24:.2f}\")\n","\n","# ============================================================\n","# Historical demo: show actual values (if present)\n","# ============================================================\n","if mode.startswith(\"Historical\"):\n","    y1_col = \"y_pm10_t_plus_1h\"\n","    y24_col = \"y_pm10_t_plus_24h\"\n","\n","    if y1_col in df.columns and y24_col in df.columns:\n","        actual_1h = row.get(y1_col, np.nan)\n","        actual_24h = row.get(y24_col, np.nan)\n","\n","        st.subheader(\"Actual vs Predicted (Demo backtest)\")\n","        a1, a2 = st.columns(2)\n","\n","        if pd.notna(actual_1h):\n","            err1 = p1 - float(actual_1h)\n","            a1.metric(\"Actual t+1h\", f\"{float(actual_1h):.2f}\", delta=f\"{err1:+.2f} (pred-actual)\")\n","        else:\n","            a1.write(\"Actual t+1h not available for this row.\")\n","\n","        if pd.notna(actual_24h):\n","            err24 = p24 - float(actual_24h)\n","            a2.metric(\"Actual t+24h\", f\"{float(actual_24h):.2f}\", delta=f\"{err24:+.2f} (pred-actual)\")\n","        else:\n","            a2.write(\"Actual t+24h not available for this row.\")\n","    else:\n","        st.warning(\"Your dataset does not contain the target columns `y_pm10_t_plus_1h` and `y_pm10_t_plus_24h`.\")\n","\n","# ============================================================\n","# Show inputs used\n","# ============================================================\n","with st.expander(\"Show feature values used (one row)\"):\n","    st.dataframe(x_row[FEATURE_COLS].T.rename(columns={x_row.index[0]: \"value\"}))\n","\n","st.caption(\n","    \"Note: In deployment (Latest forecast), ground-truth future PM10 values are not yet available. \"\n","    \"Model accuracy should be reported via historical test-set evaluation (RMSE/R²).\"\n",")\n"],"metadata":{"id":"dItjRkiLA7vV","colab":{"base_uri":"https://localhost:8080/"},"executionInfo":{"status":"ok","timestamp":1767630063023,"user_tz":-60,"elapsed":4695,"user":{"displayName":"Judy Kimani","userId":"18127965472496464995"}},"outputId":"985f15b2-a714-48d7-fed8-5f23dda39b2a"},"execution_count":8,"outputs":[{"output_type":"stream","name":"stderr","text":["2026-01-05 16:20:57.288 Thread 'MainThread': missing ScriptRunContext! This warning can be ignored when running in bare mode.\n","2026-01-05 16:20:57.290 Thread 'MainThread': missing ScriptRunContext! This warning can be ignored when running in bare mode.\n","2026-01-05 16:20:57.291 Thread 'MainThread': missing ScriptRunContext! This warning can be ignored when running in bare mode.\n","2026-01-05 16:20:57.291 Thread 'MainThread': missing ScriptRunContext! This warning can be ignored when running in bare mode.\n","2026-01-05 16:20:57.293 Thread 'MainThread': missing ScriptRunContext! This warning can be ignored when running in bare mode.\n","2026-01-05 16:20:57.293 Thread 'MainThread': missing ScriptRunContext! This warning can be ignored when running in bare mode.\n","2026-01-05 16:20:57.294 Thread 'MainThread': missing ScriptRunContext! This warning can be ignored when running in bare mode.\n","2026-01-05 16:20:57.299 Thread 'MainThread': missing ScriptRunContext! This warning can be ignored when running in bare mode.\n","2026-01-05 16:20:57.299 Thread 'MainThread': missing ScriptRunContext! This warning can be ignored when running in bare mode.\n","2026-01-05 16:20:57.300 Thread 'MainThread': missing ScriptRunContext! This warning can be ignored when running in bare mode.\n","2026-01-05 16:20:57.301 Thread 'MainThread': missing ScriptRunContext! This warning can be ignored when running in bare mode.\n","2026-01-05 16:20:57.804 Thread 'Thread-8': missing ScriptRunContext! This warning can be ignored when running in bare mode.\n","2026-01-05 16:20:57.808 Thread 'Thread-8': missing ScriptRunContext! This warning can be ignored when running in bare mode.\n","2026-01-05 16:20:57.809 Thread 'Thread-8': missing ScriptRunContext! This warning can be ignored when running in bare mode.\n","2026-01-05 16:20:59.948 Thread 'MainThread': missing ScriptRunContext! This warning can be ignored when running in bare mode.\n","2026-01-05 16:20:59.949 Thread 'MainThread': missing ScriptRunContext! This warning can be ignored when running in bare mode.\n","2026-01-05 16:20:59.949 Thread 'MainThread': missing ScriptRunContext! This warning can be ignored when running in bare mode.\n","2026-01-05 16:20:59.951 No runtime found, using MemoryCacheStorageManager\n","2026-01-05 16:20:59.955 No runtime found, using MemoryCacheStorageManager\n","2026-01-05 16:20:59.957 Thread 'MainThread': missing ScriptRunContext! This warning can be ignored when running in bare mode.\n","2026-01-05 16:20:59.957 Thread 'MainThread': missing ScriptRunContext! This warning can be ignored when running in bare mode.\n","2026-01-05 16:20:59.958 Thread 'MainThread': missing ScriptRunContext! This warning can be ignored when running in bare mode.\n","2026-01-05 16:20:59.960 Thread 'MainThread': missing ScriptRunContext! This warning can be ignored when running in bare mode.\n","2026-01-05 16:21:00.461 Thread 'Thread-9': missing ScriptRunContext! This warning can be ignored when running in bare mode.\n","2026-01-05 16:21:00.463 Thread 'Thread-9': missing ScriptRunContext! This warning can be ignored when running in bare mode.\n","2026-01-05 16:21:00.464 Thread 'Thread-9': missing ScriptRunContext! This warning can be ignored when running in bare mode.\n","2026-01-05 16:21:01.629 Thread 'MainThread': missing ScriptRunContext! This warning can be ignored when running in bare mode.\n","2026-01-05 16:21:01.630 Thread 'MainThread': missing ScriptRunContext! This warning can be ignored when running in bare mode.\n","2026-01-05 16:21:01.631 Thread 'MainThread': missing ScriptRunContext! This warning can be ignored when running in bare mode.\n","2026-01-05 16:21:01.676 Thread 'MainThread': missing ScriptRunContext! This warning can be ignored when running in bare mode.\n","2026-01-05 16:21:01.677 Thread 'MainThread': missing ScriptRunContext! This warning can be ignored when running in bare mode.\n","2026-01-05 16:21:01.678 Thread 'MainThread': missing ScriptRunContext! This warning can be ignored when running in bare mode.\n","2026-01-05 16:21:01.722 Thread 'MainThread': missing ScriptRunContext! This warning can be ignored when running in bare mode.\n","2026-01-05 16:21:01.722 Thread 'MainThread': missing ScriptRunContext! This warning can be ignored when running in bare mode.\n","2026-01-05 16:21:01.723 Thread 'MainThread': missing ScriptRunContext! This warning can be ignored when running in bare mode.\n","2026-01-05 16:21:01.724 Thread 'MainThread': missing ScriptRunContext! This warning can be ignored when running in bare mode.\n","2026-01-05 16:21:01.726 Session state does not function when running a script without `streamlit run`\n","2026-01-05 16:21:01.727 Thread 'MainThread': missing ScriptRunContext! This warning can be ignored when running in bare mode.\n","2026-01-05 16:21:01.728 Thread 'MainThread': missing ScriptRunContext! This warning can be ignored when running in bare mode.\n","2026-01-05 16:21:01.728 Thread 'MainThread': missing ScriptRunContext! This warning can be ignored when running in bare mode.\n","2026-01-05 16:21:01.729 Thread 'MainThread': missing ScriptRunContext! This warning can be ignored when running in bare mode.\n","2026-01-05 16:21:01.731 Thread 'MainThread': missing ScriptRunContext! This warning can be ignored when running in bare mode.\n","2026-01-05 16:21:01.731 Thread 'MainThread': missing ScriptRunContext! This warning can be ignored when running in bare mode.\n","2026-01-05 16:21:01.732 Thread 'MainThread': missing ScriptRunContext! This warning can be ignored when running in bare mode.\n","2026-01-05 16:21:01.733 Thread 'MainThread': missing ScriptRunContext! This warning can be ignored when running in bare mode.\n","2026-01-05 16:21:01.734 Thread 'MainThread': missing ScriptRunContext! This warning can be ignored when running in bare mode.\n","2026-01-05 16:21:01.734 Thread 'MainThread': missing ScriptRunContext! This warning can be ignored when running in bare mode.\n","2026-01-05 16:21:01.736 Thread 'MainThread': missing ScriptRunContext! This warning can be ignored when running in bare mode.\n","2026-01-05 16:21:01.737 Thread 'MainThread': missing ScriptRunContext! This warning can be ignored when running in bare mode.\n","2026-01-05 16:21:01.737 Thread 'MainThread': missing ScriptRunContext! This warning can be ignored when running in bare mode.\n","2026-01-05 16:21:01.738 Thread 'MainThread': missing ScriptRunContext! This warning can be ignored when running in bare mode.\n","2026-01-05 16:21:01.739 Thread 'MainThread': missing ScriptRunContext! This warning can be ignored when running in bare mode.\n","2026-01-05 16:21:01.740 Thread 'MainThread': missing ScriptRunContext! This warning can be ignored when running in bare mode.\n","2026-01-05 16:21:01.797 Thread 'MainThread': missing ScriptRunContext! This warning can be ignored when running in bare mode.\n","2026-01-05 16:21:01.798 Thread 'MainThread': missing ScriptRunContext! This warning can be ignored when running in bare mode.\n","2026-01-05 16:21:01.798 Thread 'MainThread': missing ScriptRunContext! This warning can be ignored when running in bare mode.\n","2026-01-05 16:21:01.803 Thread 'MainThread': missing ScriptRunContext! This warning can be ignored when running in bare mode.\n","2026-01-05 16:21:01.803 Thread 'MainThread': missing ScriptRunContext! This warning can be ignored when running in bare mode.\n","2026-01-05 16:21:01.804 Thread 'MainThread': missing ScriptRunContext! This warning can be ignored when running in bare mode.\n","2026-01-05 16:21:01.805 Thread 'MainThread': missing ScriptRunContext! This warning can be ignored when running in bare mode.\n","2026-01-05 16:21:01.807 Thread 'MainThread': missing ScriptRunContext! This warning can be ignored when running in bare mode.\n","2026-01-05 16:21:01.808 Thread 'MainThread': missing ScriptRunContext! This warning can be ignored when running in bare mode.\n","2026-01-05 16:21:01.809 Thread 'MainThread': missing ScriptRunContext! This warning can be ignored when running in bare mode.\n","2026-01-05 16:21:01.810 Thread 'MainThread': missing ScriptRunContext! This warning can be ignored when running in bare mode.\n","2026-01-05 16:21:01.812 Thread 'MainThread': missing ScriptRunContext! This warning can be ignored when running in bare mode.\n","2026-01-05 16:21:01.814 Thread 'MainThread': missing ScriptRunContext! This warning can be ignored when running in bare mode.\n","2026-01-05 16:21:01.815 Thread 'MainThread': missing ScriptRunContext! This warning can be ignored when running in bare mode.\n","2026-01-05 16:21:01.816 Thread 'MainThread': missing ScriptRunContext! This warning can be ignored when running in bare mode.\n","2026-01-05 16:21:01.816 Thread 'MainThread': missing ScriptRunContext! This warning can be ignored when running in bare mode.\n","2026-01-05 16:21:01.824 Thread 'MainThread': missing ScriptRunContext! This warning can be ignored when running in bare mode.\n","2026-01-05 16:21:01.825 Thread 'MainThread': missing ScriptRunContext! This warning can be ignored when running in bare mode.\n","2026-01-05 16:21:01.826 Thread 'MainThread': missing ScriptRunContext! This warning can be ignored when running in bare mode.\n","2026-01-05 16:21:01.828 Thread 'MainThread': missing ScriptRunContext! This warning can be ignored when running in bare mode.\n","2026-01-05 16:21:01.828 Thread 'MainThread': missing ScriptRunContext! This warning can be ignored when running in bare mode.\n","2026-01-05 16:21:01.829 Thread 'MainThread': missing ScriptRunContext! This warning can be ignored when running in bare mode.\n","2026-01-05 16:21:01.830 Thread 'MainThread': missing ScriptRunContext! This warning can be ignored when running in bare mode.\n","2026-01-05 16:21:01.831 Thread 'MainThread': missing ScriptRunContext! This warning can be ignored when running in bare mode.\n","2026-01-05 16:21:01.832 Thread 'MainThread': missing ScriptRunContext! This warning can be ignored when running in bare mode.\n","2026-01-05 16:21:01.833 Thread 'MainThread': missing ScriptRunContext! This warning can be ignored when running in bare mode.\n","2026-01-05 16:21:01.834 Thread 'MainThread': missing ScriptRunContext! This warning can be ignored when running in bare mode.\n","2026-01-05 16:21:01.834 Thread 'MainThread': missing ScriptRunContext! This warning can be ignored when running in bare mode.\n","2026-01-05 16:21:01.836 Thread 'MainThread': missing ScriptRunContext! This warning can be ignored when running in bare mode.\n","2026-01-05 16:21:01.878 Thread 'MainThread': missing ScriptRunContext! This warning can be ignored when running in bare mode.\n","2026-01-05 16:21:01.879 Thread 'MainThread': missing ScriptRunContext! This warning can be ignored when running in bare mode.\n","2026-01-05 16:21:01.879 Thread 'MainThread': missing ScriptRunContext! This warning can be ignored when running in bare mode.\n","2026-01-05 16:21:01.880 Thread 'MainThread': missing ScriptRunContext! This warning can be ignored when running in bare mode.\n","2026-01-05 16:21:01.881 Thread 'MainThread': missing ScriptRunContext! This warning can be ignored when running in bare mode.\n","2026-01-05 16:21:01.882 Thread 'MainThread': missing ScriptRunContext! This warning can be ignored when running in bare mode.\n"]},{"output_type":"execute_result","data":{"text/plain":["DeltaGenerator()"]},"metadata":{},"execution_count":8}]}]}
+import os
+import joblib
+import numpy as np
+import pandas as pd
+import streamlit as st
+
+# ============================================================
+# PM10 Forecast App (Gradient Boosting)
+# ============================================================
+
+DATA_DIR = "data"
+MODEL_DIR = "models"
+
+DEFAULT_DATA_FILE = "pm10_model_dataset_t1_t24_final.csv"
+DEFAULT_MODEL_1H = "gb_pm10_t_plus_1h.pkl"
+DEFAULT_MODEL_24H = "gb_pm10_t_plus_24h.pkl"
+
+st.set_page_config(page_title="PM10 Forecast (GB)", layout="wide")
+st.title("PM10 Forecasting Interface (Gradient Boosting)")
+st.caption("Forecast PM10 for t+1h and t+24h. Includes latest forecast and historical demo mode.")
+
+def require_file(path: str, label: str):
+    if not os.path.exists(path):
+        st.error(f"Missing {label}: `{path}`")
+        st.stop()
+
+@st.cache_resource
+def load_models(m1_path: str, m24_path: str):
+    m1 = joblib.load(m1_path)
+    m24 = joblib.load(m24_path)
+    return m1, m24
+
+@st.cache_data
+def load_data(csv_path: str) -> pd.DataFrame:
+    df = pd.read_csv(csv_path, parse_dates=["datetime"])
+    return df
+
+# -----------------------------
+# Paths
+# -----------------------------
+data_path = os.path.join(DATA_DIR, DEFAULT_DATA_FILE)
+m1_path = os.path.join(MODEL_DIR, DEFAULT_MODEL_1H)
+m24_path = os.path.join(MODEL_DIR, DEFAULT_MODEL_24H)
+
+require_file(data_path, "dataset CSV")
+require_file(m1_path, "t+1h model file")
+require_file(m24_path, "t+24h model file")
+
+gb_1h, gb_24h = load_models(m1_path, m24_path)
+df = load_data(data_path)
+
+# -----------------------------
+# Feature columns (must match training)
+# -----------------------------
+if not hasattr(gb_1h, "feature_names_in_"):
+    st.error("Model missing `feature_names_in_`. Please retrain using pandas DataFrame.")
+    st.stop()
+
+FEATURE_COLS = list(gb_1h.feature_names_in_)
+
+missing = [c for c in FEATURE_COLS if c not in df.columns]
+if missing:
+    st.error("Dataset is missing required feature columns:")
+    st.write(missing)
+    st.stop()
+
+if "station" not in df.columns or "datetime" not in df.columns:
+    st.error("Dataset must contain `station` and `datetime` columns.")
+    st.stop()
+
+df = df.sort_values(["station", "datetime"]).reset_index(drop=True)
+
+# -----------------------------
+# Sidebar UI
+# -----------------------------
+st.sidebar.header("Controls")
+
+stations = sorted(df["station"].astype(str).unique().tolist())
+station = st.sidebar.selectbox("Station", stations, index=0)
+
+mode = st.sidebar.radio(
+    "Mode",
+    ["Latest forecast", "Historical demo (compare with actual)"],
+    index=0
+)
+
+scenario = st.sidebar.checkbox("Scenario mode (adjust key inputs)", value=False)
+
+# Filter station
+df_s = df[df["station"].astype(str) == str(station)].copy().sort_values("datetime")
+
+# Pick row
+if mode == "Latest forecast":
+    row = df_s.iloc[-1].copy()
+else:
+    N = 2000 if len(df_s) > 2000 else len(df_s)
+    df_recent = df_s.tail(N).copy()
+    ts_list = df_recent["datetime"].dt.strftime("%Y-%m-%d %H:%M:%S").tolist()
+    picked = st.sidebar.selectbox("Pick a timestamp (recent window)", ts_list, index=len(ts_list) - 1)
+    picked_dt = pd.to_datetime(picked)
+    row = df_s[df_s["datetime"] == picked_dt].iloc[0].copy()
+
+x_row = row[FEATURE_COLS].to_frame().T
+
+# Scenario sliders
+if scenario:
+    st.info("Scenario mode: adjust a few inputs and observe prediction changes.")
+    c1, c2, c3 = st.columns(3)
+
+    def slider_if_exists(colname, label, ui_col, minv, maxv):
+        if colname in x_row.columns:
+            cur = float(x_row[colname].iloc[0])
+            x_row[colname] = ui_col.slider(label, min_value=minv, max_value=maxv, value=cur)
+
+    slider_if_exists("temp", "Temperature", c1, -20.0, 45.0)
+    slider_if_exists("humidity", "Humidity", c1, 0.0, 100.0)
+    slider_if_exists("windspeed", "Wind speed", c2, 0.0, 25.0)
+    slider_if_exists("windgust", "Wind gust", c2, 0.0, 40.0)
+    slider_if_exists("sealevelpressure", "Sea level pressure", c3, 950.0, 1050.0)
+    slider_if_exists("visibility", "Visibility", c3, 0.0, 30.0)
+
+# Predict
+p1 = float(gb_1h.predict(x_row[FEATURE_COLS])[0])
+p24 = float(gb_24h.predict(x_row[FEATURE_COLS])[0])
+
+# Display
+st.subheader("Selected context")
+a, b, c = st.columns(3)
+a.write(f"**Station:** {station}")
+b.write(f"**Timestamp used:** {row['datetime']}")
+c.write(f"**Mode:** {mode}")
+
+st.subheader("Forecast outputs")
+m1, m2 = st.columns(2)
+m1.metric("PM10 t+1h (µg/m³)", f"{p1:.2f}")
+m2.metric("PM10 t+24h (µg/m³)", f"{p24:.2f}")
+
+# Historical demo: compare if target columns exist
+y1_col = "y_pm10_t_plus_1h"
+y24_col = "y_pm10_t_plus_24h"
+
+if mode.startswith("Historical") and y1_col in df.columns and y24_col in df.columns:
+    st.subheader("Actual vs Predicted (backtest demo)")
+    actual_1h = row.get(y1_col, np.nan)
+    actual_24h = row.get(y24_col, np.nan)
+
+    d1, d2 = st.columns(2)
+    if pd.notna(actual_1h):
+        d1.metric("Actual t+1h", f"{float(actual_1h):.2f}", delta=f"{(p1-float(actual_1h)):+.2f}")
+    else:
+        d1.write("Actual t+1h not available.")
+
+    if pd.notna(actual_24h):
+        d2.metric("Actual t+24h", f"{float(actual_24h):.2f}", delta=f"{(p24-float(actual_24h)):+.2f}")
+    else:
+        d2.write("Actual t+24h not available.")
+
+with st.expander("Show features used (one row)"):
+    st.dataframe(x_row[FEATURE_COLS].T.rename(columns={x_row.index[0]: "value"}))
+
+# Download report
+st.subheader("Download")
+report = {
+    "station": [station],
+    "timestamp_used": [row["datetime"]],
+    "mode": [mode],
+    "pred_pm10_t_plus_1h": [p1],
+    "pred_pm10_t_plus_24h": [p24],
+}
+if y1_col in df.columns:
+    report["actual_pm10_t_plus_1h"] = [row.get(y1_col, np.nan)]
+if y24_col in df.columns:
+    report["actual_pm10_t_plus_24h"] = [row.get(y24_col, np.nan)]
+
+report_df = pd.DataFrame(report)
+st.download_button(
+    "⬇️ Download prediction report (CSV)",
+    data=report_df.to_csv(index=False).encode("utf-8"),
+    file_name="pm10_prediction_report.csv",
+    mime="text/csv",
+)
