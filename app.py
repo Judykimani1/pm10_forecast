@@ -3,6 +3,8 @@ import joblib
 import numpy as np
 import pandas as pd
 import streamlit as st
+import matplotlib.pyplot as plt
+
 
 # ============================================================
 # PM10 Forecast App (Gradient Boosting)
@@ -154,6 +156,66 @@ if mode.startswith("Historical") and y1_col in df.columns and y24_col in df.colu
         d2.metric("Actual t+24h", f"{float(actual_24h):.2f}", delta=f"{(p24-float(actual_24h)):+.2f}")
     else:
         d2.write("Actual t+24h not available.")
+
+    # ============================================================
+    # % Error distribution (station backtest window)
+    # ============================================================
+    st.subheader("Backtest error distribution (% error)")
+
+    # choose a backtest window (keeps app fast)
+    WINDOW = 500
+    df_bt = df_s.tail(WINDOW).copy()
+
+    # Ensure actuals exist and drop rows where actual is missing
+    df_bt = df_bt.dropna(subset=[y1_col, y24_col])
+
+    if len(df_bt) < 50:
+        st.warning("Not enough backtest rows with actual values to plot error distribution.")
+    else:
+        X_bt = df_bt[FEATURE_COLS]
+        y_true_1h = df_bt[y1_col].astype(float).values
+        y_true_24h = df_bt[y24_col].astype(float).values
+
+        y_pred_1h = gb_1h.predict(X_bt)
+        y_pred_24h = gb_24h.predict(X_bt)
+
+        def pct_error(y_true, y_pred, eps=1e-6):
+            y_true = np.asarray(y_true, dtype=float)
+            y_pred = np.asarray(y_pred, dtype=float)
+            return 100.0 * (y_pred - y_true) / (np.abs(y_true) + eps)
+
+        def mape(y_true, y_pred, eps=1e-6):
+            return float(np.mean(np.abs(pct_error(y_true, y_pred, eps=eps))))
+
+        pe_1h = pct_error(y_true_1h, y_pred_1h)
+        pe_24h = pct_error(y_true_24h, y_pred_24h)
+
+        col1, col2 = st.columns(2)
+        with col1:
+            st.metric("MAPE (t+1h)", f"{mape(y_true_1h, y_pred_1h):.2f}%")
+        with col2:
+            st.metric("MAPE (t+24h)", f"{mape(y_true_24h, y_pred_24h):.2f}%")
+
+        fig = plt.figure(figsize=(10, 4))
+        plt.hist(pe_1h, bins=35, alpha=0.6, label="t+1h % error")
+        plt.hist(pe_24h, bins=35, alpha=0.6, label="t+24h % error")
+        plt.axvline(0, linestyle="--", linewidth=1)
+        plt.xlabel("Percentage error (%)")
+        plt.ylabel("Count")
+        plt.title("Distribution of percentage error (Predicted vs Actual)")
+        plt.legend()
+        st.pyplot(fig)
+
+        summary = pd.DataFrame({
+            "Horizon": ["t+1h", "t+24h"],
+            "Median %Err": [np.median(pe_1h), np.median(pe_24h)],
+            "Mean %Err": [np.mean(pe_1h), np.mean(pe_24h)],
+            "P5 %Err": [np.percentile(pe_1h, 5), np.percentile(pe_24h, 5)],
+            "P95 %Err": [np.percentile(pe_1h, 95), np.percentile(pe_24h, 95)],
+        })
+
+        st.dataframe(summary, use_container_width=True)
+
 
 with st.expander("Show features used (one row)"):
     st.dataframe(x_row[FEATURE_COLS].T.rename(columns={x_row.index[0]: "value"}))
